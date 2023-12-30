@@ -41,10 +41,10 @@ module.exports = {
     ga: 'readonly', // Google Analytics
     cordova: 'readonly',
     __statics: 'readonly',
-    __QUASAR_SSR__: 'readonly',
-    __QUASAR_SSR_SERVER__: 'readonly',
-    __QUASAR_SSR_CLIENT__: 'readonly',
-    __QUASAR_SSR_PWA__: 'readonly',
+    _QUASAR_SSR_: 'readonly',
+    _QUASAR_SSR_SERVER_: 'readonly',
+    _QUASAR_SSR_CLIENT_: 'readonly',
+    _QUASAR_SSR_PWA_: 'readonly',
     process: 'readonly',
     Capacitor: 'readonly',
     chrome: 'readonly'
@@ -73,6 +73,6 @@ module.exports = {
     'prefer-promise-reject-errors': 'off',
 
     // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+  }
 }
