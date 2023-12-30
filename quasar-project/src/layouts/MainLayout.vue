@@ -73,12 +73,12 @@ const linksList = [
   {
     title: 'Create',
     icon: 'add',
-    link: 'https://forum.quasar.dev'
+    link: 'http://localhost:9000/#/create'
   },
   {
     title: 'Profile',
     icon: 'person',
-    link: 'https://forum.quasar.dev'
+    link: 'http://localhost:9000/#/profile'
   }
 ]
 
