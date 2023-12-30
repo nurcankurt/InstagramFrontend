@@ -53,22 +53,22 @@ const linksList = [
   {
     title: 'Home Page',
     icon: 'home',
-    link: 'https://quasar.dev'
+    link: ''
   },
   {
     title: 'Search',
     icon: 'search',
-    link: 'https://github.com/quasarframework'
+    link: ''
   },
   {
     title: 'Explore',
     icon: 'explore',
-    link: 'https://chat.quasar.dev'
+    link: ''
   },
   {
     title: 'Message',
     icon: 'chat',
-    link: 'https://forum.quasar.dev'
+    link: ''
   },
   {
     title: 'Create',
