@@ -11,10 +11,10 @@
       <q-item-section>
         <q-item>
           <q-item-section >
-          <q-item-label :style="{ 'font-weight': 'bold', 'font-size': '18px' }">{{ username || 'userNamePlaceholder' }}</q-item-label>
+          <q-item-label :style="{ 'font-weight': 'bold', 'font-size': '18px' }">{{ user.username || 'userNamePlaceholder' }}</q-item-label>
         </q-item-section>
       <q-item-section  >
-        <q-btn class="absolute-right" style="background: #FF0080; color: white; width:fit-content; height:fit-content" label="Edit Profile"  @click="editProfile" />
+        <q-btn class="absolute-right" style="background: #FF0080; color: white; width:fit-content; height:fit-content" label="Edit Profile"  @click="prompt = true" />
       </q-item-section>
         </q-item>
         <q-item>
@@ -30,8 +30,11 @@
     </q-item>
     <q-item >
       <q-item-label>
-      <div style="font-weight:bold; font-size: 16px;">{{NameSurname}}</div>
-      <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+      <div style="font-weight: bold; font-size: 16px; display: flex;">
+      <div>{{ user.name }}</div>
+      <div style="margin-left: 5px;">{{ user.surname }}</div>
+    </div>
+      <div>{{user.bio || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'}}</div>
     </q-item-label>
       </q-item>
       </q-item-section>
@@ -77,59 +80,129 @@
       </q-card>
 
   </div>
+  <q-dialog v-model="prompt" persistent>
+      <q-card style="min-width: 350px">
+          <q-card-section>
+          <q-form ref="myForm"
+          class="q-gutter-md"
+          >
+          <q-avatar  size="150px">
+            <img src="https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg" />
+          </q-avatar>
+          <div>
+          <q-btn
+            style="position: relative; overflow: hidden; background: #FF0080; color: white; width: fit-content;"
+            @click="handleButtonClick"
+          >
+            Change Picture
+            <q-file v-model="model" style="position: absolute; top: 0; left: 0; opacity: 0; width: 100%; height: 100%;" />
+          </q-btn>
+        </div>
+            <q-input
+              filled
+              v-model="user.username"
+              label="Username"
+            />
+            <q-input
+              filled
+              v-model="user.name"
+              label="Name"
+            />
+            <q-input
+            filled
+            v-model="user.surname"
+            label="Surname"
+            />
+            <q-input
+            v-model="user.bio"
+            filled
+            autogrow
+            label="Biography"
+          />
+          </q-form>
+
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancel" v-close-popup />
+          <q-btn flat label="Save" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page-container>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 
 export default defineComponent({
   name: 'ProfilePage',
-  data () {
-    return {
-      tab: 'posts',
+  setup () {
+    // Define reactive variables using ref
+    const tab = ref('posts')
+
+    const user = ref({
       username: '',
-      NameSurname: '',
-      postsCount: 0,
-      followersCount: 0,
-      followingCount: 0,
-      photos: []
-    }
-  },
-  mounted () {
+      name: '',
+      surname: '',
+      bio: ''
+
+    })
+    const postsCount = ref(0)
+    const followersCount = ref(0)
+    const followingCount = ref(0)
+    const photos = ref([])
+
     // Fetch data from the backend and update the counts
-    this.fetchDataFromBackend()
-    this.fetchPhotos()
-  },
-  methods: {
-    editProfile () {
-      // Add logic for handling the "Edit Profile" button click
-    },
-    fetchDataFromBackend () {
+    const fetchDataFromBackend = () => {
       // Simulating a backend API call. Replace this with your actual API call.
       // For simplicity, using setTimeout to simulate an asynchronous call.
       setTimeout(() => {
         // Replace these values with the actual counts received from the backend
-        this.postsCount = 100
-        this.followersCount = 500
-        this.followingCount = 200
-        this.username = 'test1'
-        this.NameSurname = 'Test Tests'
-      }) // Simulating a delay of 1 second
-    },
-    async fetchPhotos () {
+        postsCount.value = 100
+        followersCount.value = 500
+        followingCount.value = 200
+        user.value.username = 'nurcankurt'
+        user.value.name = 'Nurcan'
+        user.value.surname = 'Kurt'
+        user.value.bio = 'bioo'
+      }, 1000) // Simulating a delay of 1 second
+    }
+
+    // Fetch photos asynchronously
+    const fetchPhotos = async () => {
       try {
-        const response = await fetch('YOUR_BACKEND_API_ENDPOINT')
+        const response = await fetch('')
         const data = await response.json()
-        this.photos = data // Assuming data is an array of image URLs
+        photos.value = data // Assuming data is an array of image URLs
       } catch (error) {
         console.error('Error fetching photos:', error)
       }
     }
+
+    // Use onMounted to execute code after the component is mounted
+    onMounted(() => {
+      fetchDataFromBackend()
+      fetchPhotos()
+    })
+
+    // Return variables and methods for use in the template
+    return {
+      tab,
+      user,
+      postsCount,
+      followersCount,
+      followingCount,
+      photos,
+      fetchDataFromBackend,
+      fetchPhotos,
+      prompt: ref(false)
+    }
   }
 })
 </script>
+
 <style lang="sass" scoped>
 .my-card
   width: 100%
