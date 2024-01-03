@@ -8,12 +8,12 @@
             </div>
             <h3 class="login-heading"> testbees </h3>
             <div class="input-box">
-              <q-input label="Username" v-model="username" />
+              <q-input label="Username" v-model="user.username" />
             </div>
             <div class="input-box">
-              <q-input label="Password" :type="isPwd ? 'password' : 'text'" v-model="password">
+              <q-input label="Password" :type="user.isPwd ? 'password' : 'text'" v-model="user.password">
                 <template v-slot:append>
-                  <q-icon :name="isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="isPwd = !isPwd" />
+                  <q-icon :name="user.isPwd ? 'visibility_off' : 'visibility'" class="cursor-pointer" @click="user.isPwd = !user.isPwd" />
                 </template>
               </q-input>
             </div>
@@ -28,30 +28,58 @@
   </template>
 
 <script>
-export default {
-  data () {
-    return {
+import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { api } from 'src/boot/axios'
+
+export default defineComponent({
+  setup () {
+    const user = ref({
       username: '',
-      password: '',
-      isPwd: true
-    }
-  },
-  methods: {
-    login () {
-      if (this.username && this.password) {
-        // Add your login logic here
-      } else {
-        this.$q.notify({
-          message: 'Please enter a valid username and password',
-          color: 'negative'
-        })
+      password: ''
+    })
+
+    const $router = useRouter()
+
+    const login = async () => {
+      try {
+        if (user.value.username && user.value.password) {
+          const response = await api.get('/users/login', {
+            params: {
+              username: user.value.username,
+              password: user.value.password
+            }
+          })
+
+          // Check the response from the server for successful login
+          if (response.status === 200) {
+            console.log('User logged in successfully:', response.data)
+
+            // Redirect the user to another page
+            $router.push({ path: '/' })
+          } else {
+            console.log('Invalid username or password.')
+          }
+        } else {
+          console.log('Please fill in both username and password.')
+        }
+      } catch (error) {
+        // Handle the error response
+        console.error('Error during login:', error)
       }
-    },
-    goToRegisterPage () {
-      // Add navigation logic to the register page
+    }
+
+    function goToRegisterPage () {
+      $router.push({ path: 'register' })
+    }
+
+    return {
+      user,
+      login,
+      goToRegisterPage
     }
   }
-}
+})
 </script>
 
   <style scoped>
