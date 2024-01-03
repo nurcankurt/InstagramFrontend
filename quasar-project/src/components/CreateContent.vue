@@ -21,6 +21,7 @@
           </template>
 
           <q-uploader
+            ref="fileUploader"
             v-model="fileInput"
             label="Select Image"
             accept=".jpg, .jpeg, .png"
@@ -59,6 +60,7 @@
   </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -79,46 +81,29 @@ export default {
       this.popupModel = true
     },
 
-    onPopupOK () {
+    async onPopupOK () {
       console.log('Text Input:', this.textInput)
       console.log('Selected Files:', this.fileInput)
 
-      // Backend ile iletişim sağlanacak
+      try {
+        const response = await this.$axios.post('/api/posts/add', {
+          userId: 1, // Örnek bir kullanıcı kimliği
+          content: this.textInput,
+          image: this.fileInput.length > 0 ? this.fileInput[0].url : null,
+          dateTime: new Date().toISOString() // Örnek bir tarih
+        })
+
+        console.log('Post added successfully', response.data)
+        this.popupModel = false
+      } catch (error) {
+        console.error('Failed to add post', error)
+      }
+
       this.popupModel = false
     },
 
     onPopupCancel () {
       this.popupModel = false
-    },
-
-    async uploadFile () {
-      try {
-        const fileInput = this.$refs.fileInput
-        const file = fileInput.files[0]
-
-        if (file) {
-          // Simulating file upload using Fetch API
-          const formData = new FormData()
-          formData.append('file', file)
-
-          const response = await fetch('YOUR_UPLOAD_API_ENDPOINT', {
-            method: 'POST',
-            body: formData
-          })
-
-          if (response.ok) {
-            const result = await response.json()
-            // Assuming the backend returns a URL for the uploaded file
-            this.fileInput = [{ url: result.fileUrl, name: file.name }]
-          } else {
-            console.error('File upload failed')
-          }
-        } else {
-          console.error('No file selected')
-        }
-      } catch (error) {
-        console.error('Error uploading file:', error)
-      }
     }
   }
 }
