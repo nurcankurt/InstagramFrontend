@@ -1,5 +1,6 @@
 import MainLayout from 'layouts/MainLayout.vue'
 import LoginLayout from 'layouts/LoginLayout.vue'
+import AdminLayout from 'layouts/AdminLayout.vue'
 
 const routes = [
   {
@@ -20,6 +21,15 @@ const routes = [
     children: [
       { path: 'login', name: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'register', name: 'register', component: () => import('pages/RegisterPage.vue') }
+    ]
+  },
+
+  {
+    path: '/admin/',
+    meta: { layout: AdminLayout },
+    component: () => import('layouts/AdminLayout.vue'),
+    children: [
+      { path: 'admin', name: 'admin', component: () => import('pages/AdminPage.vue') }
     ]
   },
 

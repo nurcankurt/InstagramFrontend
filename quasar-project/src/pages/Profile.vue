@@ -61,9 +61,15 @@
           <q-tab-panel name="posts">
             <div id="q-app" style="min-height: 100vh;">
               <div class="q-pa-md row items-start q-gutter-md">
-                <q-card v-for="(photo, index) in photos" :key="index" class="my-card">
-                  <q-img :src="photo"></q-img>
-                </q-card>
+                <q-card class="my-card">
+                  <img src="https://cdn.quasar.dev/img/parallax2.jpg">
+              </q-card>
+                <q-card class="my-card">
+                  <img src="https://cdn.quasar.dev/img/mountains.jpg">
+              </q-card>
+              <q-card class="my-card">
+                  <img src="https://cdn.quasar.dev/img/parallax1.jpg">
+              </q-card>
               </div>
             </div>
           </q-tab-panel>
@@ -163,10 +169,10 @@ export default defineComponent({
         postsCount.value = 100
         followersCount.value = 500
         followingCount.value = 200
-        user.value.username = 'nurcankurt'
-        user.value.name = 'Nurcan'
-        user.value.surname = 'Kurt'
-        user.value.bio = 'bioo'
+        user.value.username = 'username'
+        user.value.name = 'name'
+        user.value.surname = 'surname'
+        user.value.bio = 'bio'
       }, 1000) // Simulating a delay of 1 second
     }
 

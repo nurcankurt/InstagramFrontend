@@ -8,16 +8,24 @@
           </div>
           <h3 class="register-heading"> testbees </h3>
           <div class="input-box">
-            <q-input label="First Name" v-model="user.firstname" />
+            <q-input label="First Name" v-model="user.firstname"
+            lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please enter First Name']"/>
           </div>
           <div class="input-box">
-            <q-input label="Second Name" v-model="user.secondname" />
+            <q-input label="Second Name" v-model="user.secondname"
+            lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please enter Second Name']"/>
           </div>
           <div class="input-box">
-            <q-input label="Email Address" v-model="user.email" />
+            <q-input label="Email Address" v-model="user.email"
+            lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please enter Email']" suffix="@gmail.com"/>
           </div>
           <div class="input-box">
-            <q-input label="Username" v-model="user.username" />
+            <q-input label="Username" v-model="user.username"
+            lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please enter Username']"/>
           </div>
           <div class="input-box">
             <q-input label="Password" :type="user.isPwd ? 'password' : 'text'" v-model="user.password">
@@ -46,7 +54,6 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Notify } from 'quasar'
 import { api } from 'src/boot/axios'
 
 export default defineComponent({
@@ -70,7 +77,7 @@ export default defineComponent({
             username: user.value.username,
             firstname: user.value.firstname,
             lastname: user.value.secondname,
-            email: user.value.email,
+            email: user.value.email + '@gmail.com',
             password: user.value.password,
             bio: '', // Add any other fields you need to send to the backend
             profileImage: null, // Set the profile image as needed
@@ -83,8 +90,6 @@ export default defineComponent({
           // Redirect the user to another page
           $router.push({ path: '/profile' })
         } else {
-          Notify.create('Please fill in all required fields and ensure passwords match.')
-
           console.log('Please fill in all required fields and ensure passwords match.')
         }
       } catch (error) {

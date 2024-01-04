@@ -79,6 +79,11 @@ const linksList = [
     title: 'Profile',
     icon: 'person',
     link: 'http://localhost:9000/#/profile'
+  },
+  {
+    title: 'Logout',
+    icon: 'logout',
+    link: 'http://localhost:9000/#/instagram/login'
   }
 ]
 

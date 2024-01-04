@@ -50,22 +50,10 @@ import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksList = [
-  {
-    title: 'Home Page',
-    icon: 'home'
-  },
-  {
-    title: 'Search',
-    icon: 'search'
-  },
-  {
-    title: 'Explore',
-    icon: 'explore'
-  }
 ]
 
 export default defineComponent({
-  name: 'LoginLayout',
+  name: 'AdminLayout',
 
   components: {
     EssentialLink

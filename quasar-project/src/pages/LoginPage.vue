@@ -8,7 +8,9 @@
             </div>
             <h3 class="login-heading"> testbees </h3>
             <div class="input-box">
-              <q-input label="Username" v-model="user.username" />
+              <q-input label="Username" v-model="user.username"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please enter Username']" />
             </div>
             <div class="input-box">
               <q-input label="Password" :type="user.isPwd ? 'password' : 'text'" v-model="user.password">
@@ -56,7 +58,7 @@ export default defineComponent({
             console.log('User logged in successfully:', response.data)
 
             // Redirect the user to another page
-            $router.push({ path: '/' })
+            $router.push({ path: '/profile' })
           } else {
             console.log('Invalid username or password.')
           }
